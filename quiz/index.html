@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz App</title>
+</head>
+<body>
+
+    <h2>JavaScript Quiz</h2>
+
+    <!-- Question -->
+    <h3 id="question"></h3>
+
+    <!-- Options -->
+    <div id="options"></div>
+
+    <!-- Next button -->
+    <button onclick="nextQuestion()">Next Question</button>
+
+    <!-- Final result -->
+    <h3 id="result"></h3>
+
+<script>
+
+// Current question index
+let currentQuestion = 0;
+
+// User score
+let score = 0;
+
+// Array of questions
+const quiz = [
+
+{
+    question: "Which language is used to structure a web page?",
+    options: ["CSS", "HTML", "JavaScript", "Python"],
+    answer: "HTML"
+},
+
+{
+    question: "Which language is used to style web pages?",
+    options: ["HTML", "CSS", "Python", "Java"],
+    answer: "CSS"
+},
+
+{
+    question: "Which language is used to add interactivity to web pages?",
+    options: ["HTML", "CSS", "JavaScript", "SQL"],
+    answer: "JavaScript"
+},
+
+{
+    question: "What does HTML stand for?",
+    options: [
+        "Hyper Text Markup Language",
+        "High Text Machine Language",
+        "Hyper Transfer Markup Language",
+        "Home Tool Markup Language"
+    ],
+    answer: "Hyper Text Markup Language"
+},
+
+{
+    question: "Which CSS property changes the text color?",
+    options: ["font-color", "text-color", "color", "background-color"],
+    answer: "color"
+},
+
+{
+    question: "Which CSS property changes the background color?",
+    options: ["bgcolor", "background-color", "color", "background"],
+    answer: "background-color"
+},
+
+{
+    question: "Which symbol is used for an ID selector in CSS?",
+    options: [".", "#", "*", "&"],
+    answer: "#"
+},
+
+{
+    question: "Which symbol is used for a Class selector in CSS?",
+    options: [".", "#", "@", "&"],
+    answer: "."
+},
+
+{
+    question: "Which keyword is used to declare a variable in JavaScript?",
+    options: ["var", "define", "int", "string"],
+    answer: "var"
+},
+
+{
+    question: "What does DOM stand for?",
+    options: [
+        "Document Object Model",
+        "Data Object Management",
+        "Digital Object Model",
+        "Document Order Method"
+    ],
+    answer: "Document Object Model"
+},
+
+{
+    question: "Which function is used to print something in the browser console?",
+    options: [
+        "console.print()",
+        "console.log()",
+        "print()",
+        "log()"
+    ],
+    answer: "console.log()"
+},
+
+{
+    question: "Which company originally developed JavaScript?",
+    options: ["Google", "Microsoft", "Netscape", "IBM"],
+    answer: "Netscape"
+},
+
+{
+    question: "Which HTML tag is used to create a hyperlink?",
+    options: ["<link>", "<a>", "<href>", "<url>"],
+    answer: "<a>"
+},
+
+{
+    question: "Which HTML tag is used to insert an image?",
+    options: ["<img>", "<image>", "<picture>", "<src>"],
+    answer: "<img>"
+},
+
+{
+    question: "Which JavaScript method converts a string to uppercase?",
+    options: [
+        "upperCase()",
+        "toUpperCase()",
+        "capitalize()",
+        "upper()"
+    ],
+    answer: "toUpperCase()"
+}
+
+];
+
+// Function to display current question
+function loadQuestion() {
+
+    // Get current question object
+    let q = quiz[currentQuestion];
+
+    // Display question//DOM
+    document.getElementById("question").innerText = q.question;
+
+    // Empty options container
+    let optionsHTML = "";
+
+    // Create buttons for each option
+    q.options.forEach(option => {
+
+        optionsHTML += `
+        <button 
+        class="option-btn"
+        onclick="checkAnswer('${option}',this)">
+            ${option}
+        </button>
+        <br><br>
+        `;
+    });
+
+    // Display buttons
+    document.getElementById("options").innerHTML = optionsHTML;
+}
+
+// Check answer selected by user
+function checkAnswer(selectedOption, button) {
+
+    let correctAnswer = quiz[currentQuestion].answer;
+
+    let buttons =
+    document.querySelectorAll(".option-btn");
+
+    buttons.forEach(btn => {
+        btn.disabled = true;
+    });
+
+    if(selectedOption === correctAnswer) {
+
+        button.style.backgroundColor = "green";
+        score++;
+
+    } else {
+
+        button.style.backgroundColor = "red";
+
+        buttons.forEach(btn => {
+
+            if(btn.innerText === correctAnswer) {
+                btn.style.backgroundColor = "green";
+            }
+
+        });
+    }
+}
+
+// Move to next question
+function nextQuestion() {
+
+    currentQuestion++;
+
+    // More questions available
+    if(currentQuestion < quiz.length) {
+
+        loadQuestion();
+
+    }
+    else {
+
+        // Quiz completed
+        document.getElementById("question").innerText =
+        "Quiz Completed";
+
+        document.getElementById("options").innerHTML = "";
+
+        document.getElementById("result").innerText =
+        `Your Score: ${score}/${quiz.length}`;
+    }
+}
+
+// Load first question
+loadQuestion();
+
+</script>
+
+</body>
+</html>
